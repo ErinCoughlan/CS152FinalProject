@@ -7,7 +7,10 @@
 from getAllFiles import *
 from constants import *
 
-fileList = getAllFiles("/all_images");
+# OpenCV is super annoying
+#import cv
+
+currDir, fileList = getAllFiles("/all_images");
 
 total = 0;
 finalFileList = [];
@@ -15,10 +18,7 @@ nFiles =len(fileList);
 for i in range(nFiles):
     filename = fileList[i];
     
-    # split the filenames to get emotions and to compare
-    # example:
-    # string = 'name_dir_emotion_open.pgm';
-    # arr = ['name' 'dir' 'emotion' 'open' 'pgm'];
+    # split filenames to get components
     arr = filename.split("_");
     
     arrDir = arr[DIR];
@@ -45,13 +45,15 @@ for i in range(nFiles):
             success = False;
     
     if success:
-        finalFileList += filename;
+        finalFileList.append(filename);
         total = total + 1;
 
 print "total: ", total;
 
-#face = imread(fileName);
-#imshow(face);
-    
-    
-
+# display first image for testing
+# get full path name
+index = 0;
+path = currDir + '/' + finalFileList[index];
+#face = cvLoadImage(path, CV_LOAD_IMAGE_GRAYSCALE);
+windowTitle = "face: " + str(index);
+#cvShowImage(windowTitle, face);

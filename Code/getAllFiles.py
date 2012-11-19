@@ -10,10 +10,10 @@ getAllFiles:
     Assumes that the top level folder is in current directory
     
     Input type: String(ext)
-    Return type: String
+    Return type: String(currDir), [String(filenames)]
 """
 def getAllFiles(ext):
     currDir = os.getcwd();
     currDir += ext;
     filenames = os.listdir(currDir);
-    return filenames;
+    return currDir, filenames;
