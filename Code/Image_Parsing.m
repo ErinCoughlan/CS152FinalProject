@@ -60,6 +60,9 @@ for i = 1:nFiles
     end
 end
 
+face = imread(fileName);
+imshow(face);
+
 total
 
         
