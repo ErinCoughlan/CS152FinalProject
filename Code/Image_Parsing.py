@@ -8,7 +8,7 @@ from getAllFiles import *
 from constants import *
 
 # OpenCV is super annoying
-#import cv
+import cv
 
 currDir, fileList = getAllFiles("/all_images");
 
@@ -54,6 +54,9 @@ print "total: ", total;
 # get full path name
 index = 0;
 path = currDir + '/' + finalFileList[index];
-#face = cvLoadImage(path, CV_LOAD_IMAGE_GRAYSCALE);
+face = cv.LoadImage(path, cv.CV_LOAD_IMAGE_GRAYSCALE);
 windowTitle = "face: " + str(index);
-#cvShowImage(windowTitle, face);
+cv.ShowImage(windowTitle, face);
+
+# wait for a keypress
+cv.WaitKey(0);
