@@ -2,7 +2,8 @@
 import cv
 
  #Point to where all our Haar stuff is 
-harr_Cascade_Path = "/Users/Viv/Downloads/OpenCV-2.4.0/data/haarcascades/haarcascade_frontalface_default.xml"
+#harr_Cascade_Path = "/Users/Viv/Downloads/OpenCV-2.4.0/data/haarcascades/haarcascade_frontalface_default.xml"
+harr_Cascade_Path = "/Users/ErinCoughlan/Desktop/OpenCV-2.4.0/data/haarcascades/haarcascade_frontalface_default.xml"
 CAMERA_INDEX = 0
 
 """
