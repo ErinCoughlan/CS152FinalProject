@@ -56,8 +56,6 @@ class FaceDetect:
 
         # if a 'q' or Esc was pressed
         if keyPressed == ord('q') or keyPressed == 27: 
-            print 'quitting'
-            # this should work
             cv.DestroyWindow("Video")
             sys.exit("Successful exit")
             
@@ -106,7 +104,7 @@ class FaceDetect:
             subImg = np.asarray(subImg[:,:])
             gray = cv2.cvtColor(subImg, cv2.COLOR_BGR2GRAY)
 
-            s = cv2.SURF(85);
+            s = cv2.SURF();
             mask = np.uint8(np.ones(gray.shape))
             keypoints = s.detect(gray, mask)
 
