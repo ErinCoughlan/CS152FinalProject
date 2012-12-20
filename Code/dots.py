@@ -5,6 +5,10 @@ import os, sys
 import numpy as np
 import scipy as sp
 
+from surf import *
+from harris import *
+from canny import *
+
 # constants
 CAMERA_INDEX = 0
 user = "erin" # user names are erin or viv
@@ -33,6 +37,8 @@ class FaceDetect:
 
         self.faces = []
         self.faceFeatures = []
+        self.faceFeatures2 = []
+        self.faceFeatures3 = []
 
 
     def findFaces(self, image):
@@ -68,7 +74,15 @@ class FaceDetect:
 
         for dots in self.faceFeatures:
            for point in dots:
-               cv.Circle(self.image, point, 1, 255)
+               cv.Circle(self.image,point,2,cv.RGB(155, 0, 25))
+
+        for dots in self.faceFeatures2:
+           for point in dots:
+               cv.Circle(self.image,point,2,cv.RGB(25, 0, 155))
+
+        for dots in self.faceFeatures3:
+           for point in dots:
+               cv.Circle(self.image,point,2,cv.RGB(25, 155, 25))
 
         cv.ShowImage("Video", self.image)
 
@@ -93,30 +107,22 @@ class FaceDetect:
 
     def findFeatures(self, image):
         features = []
+        features2 = []
+        features3 = []
         for (x,y,w,h) in self.faces:
             # extract the face
             copy = cv.CloneImage(image)
             subImg = cv.GetSubRect(copy, (x,y,w,h))
+
+            offset = (x,y)
+            features = surf(subImg, offset)
+            features2 = harris(subImg, offset)
+            features3 = canny(subImg, offset)
             
-            # correcting for data types
-            # (must be numpy array for surf, but CvMat for draw)
-            # actually need [:,:]
-            subImg = np.asarray(subImg[:,:])
-            gray = cv2.cvtColor(subImg, cv2.COLOR_BGR2GRAY)
-
-            s = cv2.SURF();
-            mask = np.uint8(np.ones(gray.shape))
-            keypoints = s.detect(gray, mask)
-
-            dots = []
-            for point in keypoints:
-                newX = int(point.pt[0]) + x
-                newY = int(point.pt[1]) + y
-                dots.append((newX,newY))
-
-            features.append(dots)
 
         self.faceFeatures = features
+        self.faceFeatures2 = features2
+        self.faceFeatures3 = features3
 
             
 
@@ -125,7 +131,10 @@ if __name__ == "__main__":
  
     fd = FaceDetect()
 
+    i = 0
     while True:
-        fd.handleNextImage()
+        if i%5 == 0:
+            fd.handleNextImage()
+        i += 1
  
 
