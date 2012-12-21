@@ -120,10 +120,10 @@ if __name__=="__main__":
     ans = []
     for filename, hotCode in finalFileList:
         fileArr = read_xml(currDir + '/' + filename)
-        hotArr = [hotCode.index(1)]
-        ans.append(fileArr + hotArr)
+ #       hotArr = [hotCode.index(1)]
+        ans.append(fileArr + hotCode)
 
-    # always have 30670 values
+
     final = np.array(ans[0])
     vals = final.shape[0]
     for i in range(1, len(ans)):
