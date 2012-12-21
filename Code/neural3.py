@@ -13,6 +13,8 @@ from numpy.random import multivariate_normal
 
 from getDataSet import *
 
+# test.txt is a sample datafile for testing
+# data.txt is the image data
 alldata = get_dataset_txt('test.txt')
 
 # randomly split data into training and testing

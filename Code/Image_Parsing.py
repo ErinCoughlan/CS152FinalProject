@@ -93,8 +93,6 @@ def read_xml(filename):
     f = open(filename, "r")
     a = []
     foundData = False
-
-    count = 0
     while True:
         line = f.readline()
         if not line:
@@ -102,7 +100,6 @@ def read_xml(filename):
         elif "data" in line:
             foundData = True
         elif foundData:
-            count += 1
             a.append(line.rstrip())
         elif ("data" in line) and foundData:
             line.replace("</data></name>", "")
@@ -113,11 +110,14 @@ def read_xml(filename):
 
     ans = []
     for i in range(len(a)):
-        arr = a[0].split(" ")
+        arr = re.split(r"[ ,]",a[i])
         for j in range(len(arr)):
             char = arr[j]
-            if char != '':
-                ans.append(int(char))
+            if char not in ["",",","]"]:
+                try:
+                    ans.append(int(char))
+                except:
+                    print char
                 
     return ans
 
