@@ -119,11 +119,13 @@ def read_xml(filename):
 
 if __name__=="__main__":
 
-  #  currDir, fileList = getAllFiles("/all_images");
+  #  currDir, fileList = getAllFiles("/all_images")
 
  #   finalFileList = hot(fileList)
 
-    finalFileList = [['A.xml', [0,0,1,0]]]
+    currDir, fileList = getAllFiles("/xml")
+    finalFileList = hot(fileList)
+ #   finalFileList = [['A.xml', [0,0,1,0]]]
 
     num_samples = len(finalFileList)
 
