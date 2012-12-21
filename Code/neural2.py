@@ -11,6 +11,7 @@ from pylab import ion, ioff, figure, draw, contourf, clf, show, hold, plot
 from scipy import diag, arange, meshgrid, where
 from numpy.random import multivariate_normal
 
+
 # set up the dataset (not sure what these values mean)
 means = [(-1,0), (2,4), (3,1), (1,2)]
 cov = [diag([1,1]), diag([0.5,1.2]), diag([1.5,0.7]), diag([2,.9])]
@@ -25,7 +26,7 @@ for n in xrange(400):
 # randomly split data into training and testing
 tstdata, trndata = alldata.splitWithProportion(0.25)
 
-# one output neuron per class
+# one output neuron per class -- we already did this in 
 trndata._convertToOneOfMany( )
 tstdata._convertToOneOfMany( )
 
