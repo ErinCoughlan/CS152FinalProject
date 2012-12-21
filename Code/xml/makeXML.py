@@ -6,7 +6,7 @@ import os
 # get current directory
 currDir = os.getcwd();
 imageDir = os.getcwd();
-imageDir += "/../all_images";
+imageDir += "/all_images";
 fileList = os.listdir(imageDir);
 
 # set package path
@@ -19,7 +19,9 @@ print retvalue, "Successfully compiled canny.c"
 
 # add all the files
 for filename in fileList:
-    command = "./a.out " + imageDir + "/" + filename
-    retvalue = os.system(command)
+    name = imageDir + "/" + filename
+    if filename[0] != ".":
+        command = "./a.out " + name
+        retvalue = os.system(command)
 
     print filename
