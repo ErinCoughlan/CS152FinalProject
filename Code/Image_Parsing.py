@@ -136,6 +136,7 @@ if __name__=="__main__":
     np.savetxt('data.txt', final, fmt='%10.f')
  
 
+    # Sample data sets for testing
     # Save data to a text file using numpy
     # classes as target
     x1 = [[1,0,0,0,0,2],[0,0,0,1,0,2],[1,0,0,0,0,1],[1,1,1,0,0,0],
@@ -155,7 +156,7 @@ if __name__=="__main__":
     
     # fmt determine format numbers should be in
     np.savetxt('test.txt', x, fmt='%10.5f')
-##
+
 ##    # To read info back using numpy
 ##    new_data = np.loadtxt('test.txt')
 ##    new_data = new_data.reshape((4,5))
