@@ -164,7 +164,3 @@ if __name__=="__main__":
     # fmt determine format numbers should be in
     np.savetxt('test.txt', x, fmt='%10.f')
 
-##    # To read info back using numpy
-##    new_data = np.loadtxt('test.txt')
-##    new_data = new_data.reshape((4,5))
-
