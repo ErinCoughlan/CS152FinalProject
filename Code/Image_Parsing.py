@@ -29,7 +29,6 @@ def getAllFiles(ext):
     currDir = os.getcwd();
     currDir += ext;
     filenames = os.listdir(currDir);
-    filenames.pop(0) # to get rid of the github hidden file
     return currDir, filenames;
 
 
@@ -52,35 +51,37 @@ def hot(fileList):
         # split filenames to get components
         arr = re.split(r"[_.]",filename);
 
-        arrDir = arr[DIR];
-        arrEmo = arr[EMOTION];
-        arrOpen = arr[OPEN];
-        
         success = False;
-        # We only want to look at pictures that are straight on
-        # and don't have glasses
-        if 'straight' == arrDir and 'open' == arrOpen:
-            # initialize hot code
-            hotCode = [0,0,0,0];
-            success = True;
-            if 'angry' == arrEmo:
-                hotCode[ANGRY] = 1;
-            elif 'happy' == arrEmo:
-                hotCode[HAPPY] = 1;
-            elif 'neutral' == arrEmo:
-                hotCode[NEUTRAL] = 1;
-            elif 'sad' == arrEmo:
-                hotCode[SAD] = 1;
-            else:
-                print 'No emotion data';
-                success = False;
+        if arr[0] != '': # ignoring hidden files
+            arrDir = arr[DIR];
+            arrEmo = arr[EMOTION];
+            arrOpen = arr[OPEN];
+            
+            # We only want to look at pictures that are straight on
+            # and don't have glasses
+            if 'straight' == arrDir and 'open' == arrOpen:
+                # initialize hot code
+                hotCode = [0,0,0,0];
+                success = True;
+                if 'angry' == arrEmo:
+                    hotCode[ANGRY] = 1;
+                elif 'happy' == arrEmo:
+                    hotCode[HAPPY] = 1;
+                elif 'neutral' == arrEmo:
+                    hotCode[NEUTRAL] = 1;
+                elif 'sad' == arrEmo:
+                    hotCode[SAD] = 1;
+                else:
+                    print 'No emotion data';
+                    success = False;
         
         if success:
             finalFileList.append([filename, hotCode]);
             total = total + 1;
 
-    print "total: ", total;
-    print "first file and code: ", finalFileList[0]
+    if total != 0:
+        print "total: ", total;
+        print "first file and code: ", finalFileList[0]
 
     return finalFileList
 
@@ -119,13 +120,12 @@ def read_xml(filename):
 
 if __name__=="__main__":
 
-  #  currDir, fileList = getAllFiles("/all_images")
+ #   currDir, fileList = getAllFiles("/all_images")
 
  #   finalFileList = hot(fileList)
 
     currDir, fileList = getAllFiles("/xml")
     finalFileList = hot(fileList)
- #   finalFileList = [['A.xml', [0,0,1,0]]]
 
     num_samples = len(finalFileList)
 
