@@ -52,6 +52,31 @@
 		Due to these initial results, we decided to continue working with the canny feature extraction model.  Below is a more refined version of the canny network (coded in C, rather than Python).
 	</p>
 	
+		<center>
+	<table>
+		<tr>
+		<td><h3> ORIGINAL </h3>
+		<img style="border-width: 0px;" src="../GirlOriginalCanny.jpg" width="480" height="360" title="canny_original" /></td>
+		<td><h3> BAD </h3>
+		<img style="border-width: 0px;" src="../GirlBadCanny.jpg" width="480" height="360" title="canny_bad" /></td>
+		</tr><tr>
+		<td><h3> MIDDLE </h3>
+		<img style="border-width: 0px;" src="../GirlMiddleCanny.jpg" width="480" height="360" title="canny_middle" /></td>
+		<td><h3> GOOD </h3>
+		<img style="border-width: 0px;" src="../GirlGoodCanny.jpg" width="480" height="360" title="canny_good" /></td>
+		</tr>
+	</table>
+	</center>
+	
+	<p>
+		Once we were satisfied with the results of the feature recognition using canny, we moved to extracting these features from out database images, which were less detailed and smaller.  After initial trials, we determined that it would be better to recognize the face in the image and apply the canny feature recognition to only that part in order to decrease noise in the images.
+	</p>
+	
+	<center>
+	<h3> ORIGINAL </h3>
+		<img style="border-width: 0px;" src="../originalCannyTestData.jpg" width="600" height="300" title="original test image" />
+	</center>
+	
 	<h2> NEURAL NETWORK: </h2>
 	<p>
 		We used a backpropagation network with 2 input neurons, 2 hidden layers, and 1 output neuron, which corresponded to the emotion the person was displaying.  Our facial emotion database was from CMU, and contained 1888 images.  We removed any images where the person was not facing forward or was wearing glasses.  Our final data set thus contained 236 images.  We trained the network using 75% of the images, randomly selected.
