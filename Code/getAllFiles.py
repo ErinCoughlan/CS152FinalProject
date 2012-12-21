@@ -16,4 +16,5 @@ def getAllFiles(ext):
     currDir = os.getcwd();
     currDir += ext;
     filenames = os.listdir(currDir);
+    filenames.pop(0) # to get rid of the github hidden file
     return currDir, filenames;

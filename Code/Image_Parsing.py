@@ -6,6 +6,7 @@
 
 from getAllFiles import *
 from constants import *
+import re
 
 # OpenCV is super annoying
 import cv
@@ -14,13 +15,13 @@ currDir, fileList = getAllFiles("/all_images");
 
 total = 0;
 finalFileList = [];
-nFiles =len(fileList);
+nFiles = len(fileList);
 for i in range(nFiles):
     filename = fileList[i];
     
     # split filenames to get components
-    arr = filename.split("_");
-    
+    arr = re.split(r"[_.]",filename);
+
     arrDir = arr[DIR];
     arrEmo = arr[EMOTION];
     arrOpen = arr[OPEN];
@@ -45,18 +46,18 @@ for i in range(nFiles):
             success = False;
     
     if success:
-        finalFileList.append(filename);
+        finalFileList.append([filename, hotCode]);
         total = total + 1;
 
 print "total: ", total;
 
 # display first image for testing
 # get full path name
-index = 0;
-path = currDir + '/' + finalFileList[index];
-face = cv.LoadImage(path, cv.CV_LOAD_IMAGE_GRAYSCALE);
-windowTitle = "face: " + str(index);
-cv.ShowImage(windowTitle, face);
+##index = 0;
+##path = currDir + '/' + finalFileList[index][0];
+##face = cv.LoadImage(path, cv.CV_LOAD_IMAGE_GRAYSCALE);
+##windowTitle = "face: " + str(index);
+##cv.ShowImage(windowTitle, face);
 
 # wait for a keypress
-cv.WaitKey(0);
+#cv.WaitKey(0);
