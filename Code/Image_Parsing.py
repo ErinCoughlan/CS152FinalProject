@@ -87,45 +87,57 @@ def hot(fileList):
 def read_xml(filename):
     """ Return image data from an xml file as a numpy array. """
 
-    return np.empty
+    f = open(filename, "r")
+    a = []
+    foundData = False
+
+    count = 0
+    while True:
+        line = f.readline()
+        if not line:
+            break
+        elif "data" in line:
+            foundData = True
+        elif foundData:
+            count += 1
+            a.append(line.rstrip())
+        elif ("data" in line) and foundData:
+            line.replace("</data></name>", "")
+            a.append(line.rstrip())
+            foundData = False
+
+    ans = []
+    for i in range(len(a)):
+        arr = a[0].split(" ")
+        for j in range(len(arr)):
+            char = arr[j]
+            if char != '':
+                ans.append(int(char))
+
+    return ans
 
 
 if __name__=="__main__":
 
-    currDir, fileList = getAllFiles("/all_images");
+  #  currDir, fileList = getAllFiles("/all_images");
 
-    finalFileList = hot(fileList)
+ #   finalFileList = hot(fileList)
+
+    finalFileList = [['A.xml', [0,0,1,0]]]
 
     num_samples = len(finalFileList)
 
-    arr = []
-    for sample in range(num_samples):
-        path = currDir + '/' + finalFileList[sample][0];
-        hotCode = finalFileList[sample][1]
-        
-        face = cv.LoadImageM(path, cv.CV_LOAD_IMAGE_GRAYSCALE);
-        a = np.asarray( face[:,:] )
-        nRow, nCol = a.shape
-        curr = []
-        for row in range(nRow):
-            for val in a[row]:
-                curr.append(val)
+    ans = []
+    for filename, hotCode in finalFileList:
+        fileArr = read_xml(filename)
+        hotArr = [hotCode.index(1)]
+        ans.append(fileArr + hotArr)
 
-        arr.append(curr)
-
-##    # experiement on the first image
-##    a = np.array(arr[0])
-##    size = a.size
-##    np.savetxt('first_face.txt', a)
-##
-##    # make the image come back
-##    new_data = np.loadtxt('first_face.txt')
-##    new_data = new_data.reshape((120,128))
-##
-##    plt.imshow(new_data) #Needs to be in row,col order
-##    plt.savefig('haha.png')
+    final = np.array(ans)
+    np.savetxt('data.txt', final, fmt='%10.f')
  
 
+    # Sample data sets for testing
     # Save data to a text file using numpy
     # classes as target
     x1 = [[1,0,0,0,0,2],[0,0,0,1,0,2],[1,0,0,0,0,1],[1,1,1,0,0,0],
@@ -142,11 +154,10 @@ if __name__=="__main__":
          [1,0,0,0,1,0,0,0,1],[0,0,0,1,0,0,0,1,0],[1,0,0,0,0,0,1,0,0],[1,1,1,0,0,0,0,0,0]]
     
     x = np.array(x1)
-    print x
- #   x = np.arange(20).reshape((4,5))
+    
     # fmt determine format numbers should be in
     np.savetxt('test.txt', x, fmt='%10.5f')
-##
+
 ##    # To read info back using numpy
 ##    new_data = np.loadtxt('test.txt')
 ##    new_data = new_data.reshape((4,5))
