@@ -4,10 +4,10 @@ import cv2
 import os, sys
 import numpy as np
 import scipy as sp
-
-from surf import *
-from harris import *
-from canny import *
+from scipy.linalg import svd
+from scipy.misc import lena
+import matplotlib.pyplot as plt
+import matplotlib.image as mpimg
 
 # constants
 CAMERA_INDEX = 0
@@ -37,8 +37,6 @@ class FaceDetect:
 
         self.faces = []
         self.faceFeatures = []
-        self.faceFeatures2 = []
-        self.faceFeatures3 = []
 
 
     def findFaces(self, image):
@@ -74,15 +72,7 @@ class FaceDetect:
 
         for dots in self.faceFeatures:
            for point in dots:
-               cv.Circle(self.image,point,2,cv.RGB(155, 0, 25))
-
-        for dots in self.faceFeatures2:
-           for point in dots:
-               cv.Circle(self.image,point,2,cv.RGB(25, 0, 155))
-
-        for dots in self.faceFeatures3:
-           for point in dots:
-               cv.Circle(self.image,point,2,cv.RGB(25, 155, 25))
+               cv.Circle(self.image, point, 1, 255)
 
         cv.ShowImage("Video", self.image)
 
@@ -107,22 +97,70 @@ class FaceDetect:
 
     def findFeatures(self, image):
         features = []
-        features2 = []
-        features3 = []
         for (x,y,w,h) in self.faces:
             # extract the face
             copy = cv.CloneImage(image)
+            img = cv.GetSubRect(copy, (x,y,w,h))
             subImg = cv.GetSubRect(copy, (x,y,w,h))
-
-            offset = (x,y)
-            features = surf(subImg, offset)
-            features2 = harris(subImg, offset)
-            features3 = canny(subImg, offset)
             
+            # correcting for data types
+            # (must be numpy array for surf, but CvMat for draw)
+            # actually need [:,:] it copies the image
+            subImg = np.asarray(subImg[:,:])
+            gray = cv2.cvtColor(subImg, cv2.COLOR_BGR2GRAY)
 
+            s = cv2.SURF();
+            mask = np.uint8(np.ones(gray.shape))
+            keypoints = s.detect(gray, mask)
+
+            dots = []
+            for point in keypoints:
+                newX = int(point.pt[0]) + x
+                newY = int(point.pt[1]) + y
+                dots.append((newX,newY))
+
+            #features.append(dots)
+
+            t = np.arange(100)
+            time = np.sin(0.1*t)
+            real = time[:,np.newaxis,np.newaxis]*np.repeat(img[np.newaxis,...],100,axis=0)
+
+            # we add some noise
+            noisy = real + np.random.randn(*real.shape)*255
+
+            # types*observations matrix
+            M = noisy.reshape(noisy.shape[0],-1).T
+
+            # singular value decomposition factorises your data matrix such that
+            # 
+            #   M = U*S*V.T     (where '*' is matrix multiplication)
+            # 
+            # U and V are the singular matrices, containing orthogonal vectors of
+            # unit length in their rows and columns respectively. S is a diagonal
+            # matrix containing the singular values of M - these values squared will
+            # give the proportional variance explained by each PC. since U and V
+            # both contain orthogonal vectors, U*V.T is a whitened version of M.
+            U,s,Vt = svd(M,full_matrices=False)
+            V = Vt.T
+
+            # sort the PCs by descending order of the singular values (i.e. by the
+            # proportion of total variance they explain)
+            ind = np.argsort(s)[::-1]
+            U = U[:,ind]
+            s = s[ind]
+            V = V[:,ind]
+
+            # if we use all of the PCs we can reconstruct the noisy signal perfectly
+            S = np.diag(s)
+            Mhat = np.dot(U,np.dot(S,V.T))
+            #print "Using all PCs, MSE = %.6G" %(np.mean((M-Mhat)**2))
+
+            for i in range(0, len(Mhat[0])):
+                dots.append((int(Mhat[0][i]), int(Mhat[1][i])))
+
+            features.append(dots)
+            
         self.faceFeatures = features
-        self.faceFeatures2 = features2
-        self.faceFeatures3 = features3
 
             
 
@@ -131,10 +169,7 @@ if __name__ == "__main__":
  
     fd = FaceDetect()
 
-    i = 0
     while True:
-        if i%5 == 0:
-            fd.handleNextImage()
-        i += 1
+        fd.handleNextImage()
  
 
