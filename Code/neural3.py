@@ -1,5 +1,5 @@
 # Erin Coughlan and Vivian Wehner
-# Neural Network with Contour Plot
+# Neural Network
 
 from pybrain.datasets import ClassificationDataSet
 from pybrain.utilities import percentError
@@ -30,7 +30,7 @@ fnn = buildNetwork(trndata.indim, 5, trndata.outdim, outclass=SoftmaxLayer)
 # make the back propogation trainer
 trainer = BackpropTrainer(fnn, dataset=trndata)
 
-# training time
+# training time: 100 total epochs
 for i in range(20):
     trainer.trainEpochs(5) # usually a larger number, but 1 for visualization
 
