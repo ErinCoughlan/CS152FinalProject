@@ -6,9 +6,10 @@
 
 from getAllFiles import *
 from constants import *
-import re
 
-# OpenCV is super annoying
+import re
+import pprint, pickle
+
 import cv
 
 currDir, fileList = getAllFiles("/all_images");
@@ -50,6 +51,18 @@ for i in range(nFiles):
         total = total + 1;
 
 print "total: ", total;
+print "first file and code: ", finalFileList[0]
+
+# Save data to a file
+output = open('filenames.pkl', 'wb')
+pickle.dump(finalFileList, output)
+output.close()
+
+# To read info back
+pkl_file = open('filenames.pkl', 'rb')
+data1 = pickle.load(pkl_file)
+pprint.pprint(data1)
+pkl_file.close()
 
 # display first image for testing
 # get full path name
