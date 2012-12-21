@@ -1,3 +1,5 @@
+
+
 import cv
 
 image = cv.LoadImage('vwehner.jpeg')
