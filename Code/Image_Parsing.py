@@ -84,76 +84,56 @@ def hot(fileList):
 
     return finalFileList
 
+def read_xml(filename):
+    """ Return image data from an xml file as a numpy array. """
+    f = open(filename, "r")
+    a = []
+    foundData = False
 
-def read_pgm(filename, byteorder='>'):
-    """Return image data from a raw PGM file as numpy array.
+    count = 0
+    while True:
+        line = f.readline()
+        if not line:
+            break
+        elif "data" in line:
+            foundData = True
+        elif foundData:
+            count += 1
+            a.append(line.rstrip())
+        elif ("data" in line) and foundData:
+            line.replace("</data></name>", "")
+            a.append(line.rstrip())
+            foundData = False
 
-    Format specification: http://netpbm.sourceforge.net/doc/pgm.html
+    ans = []
+    for i in range(len(a)):
+        arr = a[0].split(" ")
+        for j in range(len(arr)):
+            char = arr[j]
+            if char != '':
+                ans.append(int(char))
 
-    """
-    with open(filename, 'rb') as f:
-        buffer = f.read()
-    try:
-        header, width, height, maxval = re.search(
-            b"(^P5\s(?:\s*#.*[\r\n])*"
-            b"(\d+)\s(?:\s*#.*[\r\n])*"
-            b"(\d+)\s(?:\s*#.*[\r\n])*"
-            b"(\d+)\s(?:\s*#.*[\r\n]\s)*)", buffer).groups()
-    except AttributeError:
-        raise ValueError("Not a raw PGM file: '%s'" % filename)
-    return numpy.frombuffer(buffer,
-                            dtype='u1' if int(maxval) < 256 else byteorder+'u2',
-                            count=int(width)*int(height),
-                            offset=len(header)
-                            ).reshape((int(height), int(width)))
+    return ans
 
 
 if __name__=="__main__":
 
-    currDir, fileList = getAllFiles("/all_images");
+  #  currDir, fileList = getAllFiles("/all_images");
 
-    finalFileList = hot(fileList)
+ #   finalFileList = hot(fileList)
+
+    finalFileList = [['A.xml', [0,0,1,0]]]
 
     num_samples = len(finalFileList)
 
-    arr = []
-    for sample in range(num_samples):
-        path = currDir + '/' + finalFileList[sample][0];
-        hotCode = finalFileList[sample][1]
-        
-        face = cv.LoadImageM(path, cv.CV_LOAD_IMAGE_GRAYSCALE);
-        a = np.asarray( face[:,:] )
-        nRow, nCol = a.shape
-        curr = []
-        for row in range(nRow):
-            for val in a[row]:
-                curr.append(val)
+    ans = []
+    for filename, hotCode in finalFileList:
+        fileArr = read_xml(filename)
+        hotArr = [hotCode.index(1)]
+        ans.append(fileArr + hotArr)
 
-        arr.append(curr)
-
-##    print len(arr), len(arr[0])
-##    print len(arr)*len(arr[0])
-##    b = np.array(arr[0])
-##    for row in range(1, len(arr)):
-##        a = np.array(arr[row])
-##        b = np.concatenate((b,a), axis=0)
-##
-##    b.reshape((num_samples, len(arr[0])))
-##    print b.shape
-##    np.savetxt('image_data.txt', b)
-
-
-##    # experiement on the first image
-##    a = np.array(arr[0])
-##    size = a.size
-##    np.savetxt('first_face.txt', a)
-##
-##    # make the image come back
-##    new_data = np.loadtxt('first_face.txt')
-##    new_data = new_data.reshape((120,128))
-##
-##    plt.imshow(new_data) #Needs to be in row,col order
-##    plt.savefig('haha.png')
+    final = np.array(ans)
+    np.savetxt('data.txt', final, fmt='%10.f')
  
 
     # Save data to a text file using numpy
@@ -172,8 +152,7 @@ if __name__=="__main__":
          [1,0,0,0,1,0,0,0,1],[0,0,0,1,0,0,0,1,0],[1,0,0,0,0,0,1,0,0],[1,1,1,0,0,0,0,0,0]]
     
     x = np.array(x1)
-    print x
- #   x = np.arange(20).reshape((4,5))
+    
     # fmt determine format numbers should be in
     np.savetxt('test.txt', x, fmt='%10.5f')
 ##
@@ -181,10 +160,3 @@ if __name__=="__main__":
 ##    new_data = np.loadtxt('test.txt')
 ##    new_data = new_data.reshape((4,5))
 
-
-    # display first image for testing
-##    index = 0;
-##    path = currDir + '/' + finalFileList[index][0];
-##    face = cv.LoadImage(path, cv.CV_LOAD_IMAGE_GRAYSCALE);
-##    windowTitle = "face: " + str(index);
-##    cv.ShowImage(windowTitle, face);
