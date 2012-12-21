@@ -121,7 +121,6 @@ def read_xml(filename):
 if __name__=="__main__":
 
  #   currDir, fileList = getAllFiles("/all_images")
-
  #   finalFileList = hot(fileList)
 
     currDir, fileList = getAllFiles("/xml")
