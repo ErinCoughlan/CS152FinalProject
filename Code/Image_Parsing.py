@@ -46,7 +46,7 @@ def hot(fileList):
         filename = fileList[i]
         
         # split filenames to get components
-        arr = re.split(r"[_.]",filename)
+        arr = re.split(r"[_.0]",filename)
 
         success = False
         if arr[0] != '': # ignoring hidden files
