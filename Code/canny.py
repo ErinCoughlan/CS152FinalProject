@@ -1,10 +1,10 @@
 import cv
 
 image = cv.LoadImage('vwehner.jpeg')
-#image = cv.LoadImage('vwehner.jpeg',cv.CV_LOAD_IMAGE_GRAYSCALE)
+grey = cv.LoadImage('vwehner.jpeg',cv.CV_LOAD_IMAGE_GRAYSCALE)
 
 cornerMap = cv.CreateImage(cv.GetSize(image), 8, 1)
-cv.Canny(image, cornerMap, 50, 5, 3)
+cv.Canny(grey, cornerMap, 50, 150)
 
 for y in range(0, image.height):
     for x in range(0, image.width):
