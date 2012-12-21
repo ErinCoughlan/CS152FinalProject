@@ -13,21 +13,7 @@ import cv
 import numpy as np
 import scipy
 
-
-def getAllFiles(ext):
-    """
-    Retrieves the list of files in current directory
-    Assumes that the top level folder is in current directory
-    
-    Input type: String(ext)
-    Return type: String(currDir), [String(filenames)]
-    """
-
-    currDir = os.getcwd()
-    currDir += ext
-    filenames = os.listdir(currDir)
-    return currDir, filenames
-
+from getAllFiles import *
 
 
 def hot(fileList):
@@ -49,7 +35,7 @@ def hot(fileList):
         arr = re.split(r"[_.0]",filename)
 
         success = False
-        if arr[0] != '': # ignoring hidden files
+        if arr[0] != '' and arr[-1]=='xml': # ignoring hidden files
             arrDir = arr[DIR]
             arrEmo = arr[EMOTION]
             arrOpen = arr[OPEN]
@@ -113,11 +99,9 @@ def read_xml(filename):
         arr = re.split(r"[ ,]",a[i])
         for j in range(len(arr)):
             char = arr[j]
-            if char not in ["",",","]"]:
-                try:
-                    ans.append(int(char))
-                except:
-                    print char
+            if char in ["0","1"]:
+                ans.append(int(char))
+
                 
     return ans
 
@@ -139,7 +123,16 @@ if __name__=="__main__":
         hotArr = [hotCode.index(1)]
         ans.append(fileArr + hotArr)
 
-    final = np.array(ans)
+    # always have 30670 values
+    final = np.array(ans[0])
+    vals = final.shape[0]
+    for i in range(1, len(ans)):
+        if len(ans[i]) != vals:
+            extra = [0] * int(vals-len(ans[i]))
+            ans[i] = ans[i] + extra
+        newArr = np.array(ans[i])
+        final = np.vstack((final, newArr))
+
     np.savetxt('data.txt', final, fmt='%10.f')
  
 
@@ -158,7 +151,7 @@ if __name__=="__main__":
          [0,0,0,0,0,0,1,0,0],[0,0,1,1,1,0,0,1,0],[1,0,0,1,0,0,1,0,0],[1,0,1,1,0,0,0,0,0],
          [1,0,0,0,1,0,0,0,1],[0,0,0,1,0,0,0,1,0],[1,0,0,0,0,0,1,0,0],[1,1,1,0,1,0,0,0,0],
          [1,0,0,0,1,0,0,0,1],[0,0,0,1,0,0,0,1,0],[1,0,0,0,0,0,1,0,0],[1,1,1,0,0,0,0,0,0]]
-    
+
     x = np.array(x1)
     
     # fmt determine format numbers should be in
