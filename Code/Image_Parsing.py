@@ -131,7 +131,7 @@ if __name__=="__main__":
 
     ans = []
     for filename, hotCode in finalFileList:
-        fileArr = read_xml(filename)
+        fileArr = read_xml(currDir + '/' + filename)
         hotArr = [hotCode.index(1)]
         ans.append(fileArr + hotArr)
 
