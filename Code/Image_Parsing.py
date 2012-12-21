@@ -84,28 +84,10 @@ def hot(fileList):
 
     return finalFileList
 
+def read_xml(filename):
+    """ Return image data from an xml file as a numpy array. """
 
-def read_pgm(filename, byteorder='>'):
-    """Return image data from a raw PGM file as numpy array.
-
-    Format specification: http://netpbm.sourceforge.net/doc/pgm.html
-
-    """
-    with open(filename, 'rb') as f:
-        buffer = f.read()
-    try:
-        header, width, height, maxval = re.search(
-            b"(^P5\s(?:\s*#.*[\r\n])*"
-            b"(\d+)\s(?:\s*#.*[\r\n])*"
-            b"(\d+)\s(?:\s*#.*[\r\n])*"
-            b"(\d+)\s(?:\s*#.*[\r\n]\s)*)", buffer).groups()
-    except AttributeError:
-        raise ValueError("Not a raw PGM file: '%s'" % filename)
-    return numpy.frombuffer(buffer,
-                            dtype='u1' if int(maxval) < 256 else byteorder+'u2',
-                            count=int(width)*int(height),
-                            offset=len(header)
-                            ).reshape((int(height), int(width)))
+    return np.empty
 
 
 if __name__=="__main__":
@@ -130,18 +112,6 @@ if __name__=="__main__":
                 curr.append(val)
 
         arr.append(curr)
-
-##    print len(arr), len(arr[0])
-##    print len(arr)*len(arr[0])
-##    b = np.array(arr[0])
-##    for row in range(1, len(arr)):
-##        a = np.array(arr[row])
-##        b = np.concatenate((b,a), axis=0)
-##
-##    b.reshape((num_samples, len(arr[0])))
-##    print b.shape
-##    np.savetxt('image_data.txt', b)
-
 
 ##    # experiement on the first image
 ##    a = np.array(arr[0])
@@ -181,10 +151,3 @@ if __name__=="__main__":
 ##    new_data = np.loadtxt('test.txt')
 ##    new_data = new_data.reshape((4,5))
 
-
-    # display first image for testing
-##    index = 0;
-##    path = currDir + '/' + finalFileList[index][0];
-##    face = cv.LoadImage(path, cv.CV_LOAD_IMAGE_GRAYSCALE);
-##    windowTitle = "face: " + str(index);
-##    cv.ShowImage(windowTitle, face);
