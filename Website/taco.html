@@ -1,0 +1,74 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+
+	<head>
+		<title>Erin and Vivian's Final CS 152 Project</title>
+	</head>
+	<body bgcolor="black">
+	<span style="font-family: &quot;Trebuchet MS&quot;; color: SeaGreen; text-shadow: #666666 2px 2px 4px;">
+	<center>
+	<h1>ERIN AND VIVIAN'S FINAL ADVENTURE: <br>
+		FACIAL EXPRESSION RECOGNITION
+	</h1>
+	</center>
+	</span>
+	
+	<span style="font-family: &quot;Trebuchet MS&quot;; color: SeaGreen;">
+	<center>
+	<h3>
+		CS 152 - Neural Networks <br>
+		Fall 2012
+	</h3>
+	</center>
+	<h2>PROBLEM STATEMENT: </h2>
+	<p>		Looking for someone is no longer a task in Facebook - Facebook has automated the process.  Even an iPhone can recognize faces, but what about detecting a person's emotions?  This is something which many humans struggle with, as it requires a deep knowledge base of the signs of a particular emotion.  So how could a computer do it?  Neural Networks!  We plan on using several databases of faces to build our network's knowledge and using these databases to train a network using backpropagation.  Additionally, we may implement a fuzzy logic network that also uses HSV values to recognize skin vs. non-skin.  We believe that this will improve the face recognition abilities as well as the emotion recognition since we would be able to categorize faces based on race and thus utilize our knowledge of variations in facial structures of different races.		<br><br>		As a first step, we will extract facial features from an image consisting of only a face.  Then, we will match these features to our database of different emotions to determine which emotion the image corresponds to.  If time allows, we will also be implementing a facial identifier for images, in which a face can be extracted from image, such as those from Facebook.  Finally, we will link these two components to be better than Facebook (so we can get a job at Facebook after we graduate).
+	</p>
+	
+	<h2>METHOD: </h2>
+	<p>		Feature extraction (experiment with method) <br>		Facial Matching (MLP)<br>
+	</p>
+	
+	<h2> FEATURE EXTRACTION: </h2>
+	<p>
+		We tried various methods of extracting features from the images, including canny, harris, sobel, surf, and principal component analysis.  We wanted to be able to completely outline important features such as eyes, mouth, and nose without having too much background noise.  Below are some initial images produced from each (increasing in specificity):  
+	</p>
+	<center>
+	<table>
+		<tr>
+		<td><h3> SURF </h3>
+		<img style="border-width: 0px;" src="../Code/surf.jpg" width="480" height="360" title="surf" /></td>
+		<td><h3> HARRIS </h3>
+		<img style="border-width: 0px;" src="../Code/harris.jpg" width="480" height="360" title="harris" /></td>
+		</tr><tr>
+		<td><h3> CANNY </h3>
+		<img style="border-width: 0px;" src="../Code/canny.jpg" width="480" height="360" title="canny" /></td>
+		<td><h3> SOBEL </h3>
+		<img style="border-width: 0px;" src="../Code/sobel.jpg" width="480" height="360" title="sobel" /></td>
+		</tr>
+	</table>
+	</center>
+	
+	<p>
+		Due to these initial results, we decided to continue working with the canny feature extraction model.  Below is a more refined version of the canny network (coded in C, rather than Python).
+	</p>
+	
+	<h2> NEURAL NETWORK: </h2>
+	<p>
+		We used a backpropagation network with 2 input neurons, 2 hidden layers, and 1 output neuron, which corresponded to the emotion the person was displaying.  Our facial emotion database was from CMU, and contained 1888 images.  We removed any images where the person was not facing forward or was wearing glasses.  Our final data set thus contained 236 images.  We trained the network using 75% of the images, randomly selected.
+	</p>
+	
+	<h2> RESOURCES: </h2>
+	- <a style="font-family: &quot;Trebuchet MS&quot;; color: SeaGreen; " href="http://www.cs.cmu.edu/afs/cs.cmu.edu/usr/mitchell/ftp/faces.html">CMU Database</a> <br>
+	- <a style="font-family: &quot;Trebuchet MS&quot;; color: SeaGreen; " href="http://www.hindawi.com/journals/aans/2011/673016/">Journal article on an implementation of face recognition</a> <br>
+	- <a style="font-family: &quot;Trebuchet MS&quot;; color: SeaGreen; " href="http://ieeexplore.ieee.org/xpl/articleDetails.jsp?reload=true&arnumber=5698324&contentType=Conference+Publications">Face recognition using fuzzy logic and HSV</a> <br>
+	- <a style="font-family: &quot;Trebuchet MS&quot;; color: SeaGreen; " href="http://www.sciencedirect.com/science/article/pii/S0893608005000377">Facial recognition using neurofuzzy network</a> <br>
+	- <a style="font-family: &quot;Trebuchet MS&quot;; color: SeaGreen; " href="http://www.sciencedirect.com/science/article/pii/S0167865507000220">Similarity-based neural network for facial recognition across races</a> <br>
+	- <a style="font-family: &quot;Trebuchet MS&quot;; color: SeaGreen; " href="http://www.sciencedirect.com/science/article/pii/S0031320312003421">Human emotional state- using 3-D modeling</a> <br>
+	
+
+</span>
+	
+
+
+	</body>
+</html>
