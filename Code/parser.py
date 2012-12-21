@@ -18,8 +18,6 @@ while count <200:
         array.append(line.rstrip())
         foundData = False
     count += 1
-
-for i in array:
     
 myFile.close()
 print (array)
