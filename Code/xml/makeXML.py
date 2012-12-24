@@ -6,7 +6,8 @@ import os
 # get current directory
 currDir = os.getcwd();
 imageDir = os.getcwd();
-imageDir += "/all_images";
+imageDir = "/Users/ErinCoughlan/Desktop/CS152FinalProject/Code/all_images"
+currDir = "/Users/ErinCoughlan/Desktop/CS152FinalProject/Code/xml"
 fileList = os.listdir(imageDir);
 
 # set package path

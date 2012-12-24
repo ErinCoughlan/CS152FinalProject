@@ -30,8 +30,8 @@ print "First sample (input, target):"
 print trndata['input'][0], trndata['target'][0]
 
 
-# make a feed-forward network with 2 hidden units
-fnn = buildNetwork(trndata.indim, 2, trndata.outdim, outclass=SoftmaxLayer)
+# make a feed-forward network with 500 hidden units
+fnn = buildNetwork(trndata.indim, 500, trndata.outdim, outclass=SoftmaxLayer)
 
 # make the back propogation trainer
 trainer = BackpropTrainer(fnn, dataset=trndata)
