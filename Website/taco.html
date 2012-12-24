@@ -36,14 +36,14 @@
 	<table>
 		<tr>
 		<td><h3> SURF </h3>
-		<img style="border-width: 0px;" src="../Code/surf.jpg" width="480" height="360" title="surf" /></td>
+		<img style="border-width: 0px;" src="https://raw.github.com/erinkidd01/CS152FinalProject/master/Code/surf.jpg" width="480" height="360" title="surf" /></td>
 		<td><h3> HARRIS </h3>
-		<img style="border-width: 0px;" src="../Code/harris.jpg" width="480" height="360" title="harris" /></td>
+		<img style="border-width: 0px;" src="https://raw.github.com/erinkidd01/CS152FinalProject/master/Code/harris.jpg" width="480" height="360" title="harris" /></td>
 		</tr><tr>
 		<td><h3> CANNY </h3>
-		<img style="border-width: 0px;" src="../Code/canny.jpg" width="480" height="360" title="canny" /></td>
+		<img style="border-width: 0px;" src="https://raw.github.com/erinkidd01/CS152FinalProject/master/Code/canny.jpg" width="480" height="360" title="canny" /></td>
 		<td><h3> SOBEL </h3>
-		<img style="border-width: 0px;" src="../Code/sobel.jpg" width="480" height="360" title="sobel" /></td>
+		<img style="border-width: 0px;" src="https://raw.github.com/erinkidd01/CS152FinalProject/master/Code/sobel.jpg" width="480" height="360" title="sobel" /></td>
 		</tr>
 	</table>
 	</center>
@@ -56,14 +56,14 @@
 	<table>
 		<tr>
 		<td><h3> ORIGINAL </h3>
-		<img style="border-width: 0px;" src="../GirlOriginalCanny.jpg" width="480" height="360" title="canny_original" /></td>
+		<img style="border-width: 0px;" src="https://raw.github.com/erinkidd01/CS152FinalProject/master/GirlOriginalCanny.jpg" width="480" height="360" title="canny_original" /></td>
 		<td><h3> BAD </h3>
-		<img style="border-width: 0px;" src="../GirlBadCanny.jpg" width="480" height="360" title="canny_bad" /></td>
+		<img style="border-width: 0px;" src="https://raw.github.com/erinkidd01/CS152FinalProject/master/GirlBadCanny.jpg" width="480" height="360" title="canny_bad" /></td>
 		</tr><tr>
 		<td><h3> MIDDLE </h3>
-		<img style="border-width: 0px;" src="../GirlMiddleCanny.jpg" width="480" height="360" title="canny_middle" /></td>
+		<img style="border-width: 0px;" src="https://raw.github.com/erinkidd01/CS152FinalProject/master/GirlMiddleCanny.jpg" width="480" height="360" title="canny_middle" /></td>
 		<td><h3> GOOD </h3>
-		<img style="border-width: 0px;" src="../GirlGoodCanny.jpg" width="480" height="360" title="canny_good" /></td>
+		<img style="border-width: 0px;" src="https://raw.github.com/erinkidd01/CS152FinalProject/master/GirlGoodCanny.jpg" width="480" height="360" title="canny_good" /></td>
 		</tr>
 	</table>
 	</center>
@@ -74,7 +74,7 @@
 	
 	<center>
 	<h3> ORIGINAL </h3>
-		<img style="border-width: 0px;" src="../originalCannyTestData.jpg" width="600" height="300" title="original test image" />
+		<img style="border-width: 0px;" src="https://raw.github.com/erinkidd01/CS152FinalProject/master/originalCannyTestData.jpg" width="600" height="300" title="original test image" />
 	</center>
 	
 	<h2> NEURAL NETWORK: </h2>
@@ -83,10 +83,24 @@
 	</p>
 	
 	<h2> RESULTS: </h2>
-	<h3> WITHOUT FACE RECOGNITION: <h3>
-	<img style="border-width: 0px;" src="../no_face_rec.png" width="600" height="300" title="no face recognition" />
+	<h3> WITHOUT FACE RECOGNITION: </h3>
+	<img style="border-width: 0px;" src="https://raw.github.com/erinkidd01/CS152FinalProject/master/no_face_rec.png" width="600" height="300" title="no face recognition" />
 	
+	<h3> WITH FACE RECOGNITION: </h3>
+	<img style="border-width: 0px;" src="https://raw.github.com/erinkidd01/CS152FinalProject/master/no_face_rec.png" width="600" height="300" title="face recognition" />
+	
+	<p>
+		The above information demonstrates that even with the face recognition and refined area of feature detection, we still cannot determine emotions.  We brainstormed a few reasons why this may have occurred.  We tested the neural network on smaller data sets and everything ran as expected, so we looked into our image processing.  We noticed that in many images, there was a lot going on in the background, which may have interfered with our neural network.  This is why we cropped the images to only the faces using facial recognition.  However, looking at the remaining faces, there was still a lot in common.  The main feature that identified the emotion was the mouth shape.  If we were to do this project again, we would have cropped the images even further.  This brings us to another possible reason that the emotions were not identified - that the images were too small and pixilated, especially after cropping.  The lines we were looking at probably could have been smoothed, which may have improved out images enough to the point where we could correctly identify emotions.
+	</p>
+	
+	<h2> OUR CODE: </h2>
+	
+	<p> Our code is hosted on github.  The folder that the code is in is called Code. </p>
+	<a style="font-family: &quot;Trebuchet MS&quot;; color: SeaGreen; " href="https://github.com/erinkidd01/CS152FinalProject.git">Github Project</a>
+	
+			
 	<h2> INSTRUCTIONS FOR RUNNING: </h2>
+	
 	<p>
 		- run makeXML.py (This takes all the images, runs canny feature recognition, and saves the image data as an XML file with the same name)<br>
 		- run Image_Parsing.py (This finds all the XML files, reads the data into a numpy array, determines the hotCodes, and saves it as a text file) <br>
